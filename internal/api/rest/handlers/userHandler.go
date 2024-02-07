@@ -5,6 +5,7 @@ import (
 
 	"github.com/RianIhsan/go-ecommerce-app/internal/api/rest"
 	"github.com/RianIhsan/go-ecommerce-app/internal/dto"
+	"github.com/RianIhsan/go-ecommerce-app/internal/repository"
 	"github.com/RianIhsan/go-ecommerce-app/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -17,7 +18,9 @@ type UserHandler struct {
 func SetupUserRoutes(rh *rest.RestHandler) {
 	app := rh.App
 
-	svc := service.UserService{}
+	svc := service.UserService{
+		Repo: repository.NewUserRepository(rh.DB),
+	}
 	handler := UserHandler{
 		svc: svc,
 	}

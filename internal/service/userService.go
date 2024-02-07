@@ -1,21 +1,32 @@
 package service
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/RianIhsan/go-ecommerce-app/internal/domain"
 	"github.com/RianIhsan/go-ecommerce-app/internal/dto"
+	"github.com/RianIhsan/go-ecommerce-app/internal/repository"
 )
 
 type UserService struct {
-	// something here
+	Repo repository.UserRepository
 }
 
 func (s UserService) SignUp(input dto.UserSignUp) (string, error) {
 	log.Println(input)
 
+	user, err := s.Repo.CreateUser(domain.User{
+		Email: input.Email,
+		Password: input.Password,
+		Phone: input.Phone,
+	})
+	log.Println(user)
+
+	userInfo := fmt.Sprintf("%v, %v, %v", user.ID, user.Email, user.UserType)
+
 	
-	return "example-token-hehehe", nil
+	return userInfo, err
 }
 
 func (s UserService) findUserByEmail(email string) (domain.User, error) {
